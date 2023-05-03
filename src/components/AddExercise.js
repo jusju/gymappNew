@@ -3,46 +3,31 @@ import dayjs from 'dayjs';
 import React from "react";
 
 export default function AddExercise({ addExercise, data }) {
-  const [open, setOpen] = React.useState(false);
-  const [exercise, setExercise] = React.useState({
-    duration: 0,
-    activity: '',
-    customer: {
-   ...data.customer
-    }
-    //customer:props.params.value
-  });
-  const [date, setDate] = React.useState(dayjs());
+  const [open, setOpen] = React.useState(false);
+  const [exercise, setExercise] = React.useState({
+    duration: 0,
+    activity: '',
+    date: ''
+   });
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleSave = () => {
-    
-    const dateString = date.format('YYYY-MM-DD');
-
-    const newExercise = {
-      ...exercise,
-      customer: {
-        ...exercise.customer,
-        exercises: [
-          ...(exercise.customer.exercises || []),
-          {
-            duration: exercise.duration,
-            activity: exercise.activity,
-            customer: exercise.customer,
-            date: dateString
-          }
-        ]
-      }
-    };
+  const [date, setDate] = React.useState(dayjs());
   
-    addExercise(newExercise);
-    console.log(newExercise);
-    setOpen(false);
-    console.log("saved");
-  };
+  const handleClickOpen = () => {
+    setOpen(true);
+    console.log(data);
+  };
+
+  const handleSave = () => {  
+    const newExercise = {
+      ...exercise,
+      date: date.format('YYYY-MM-DD'),
+      customer: data.links[0].href
+    };
+    addExercise(newExercise);
+    console.log(newExercise);
+    setOpen(false);
+    console.log("saved");
+  };
 
   const handleCancel = () => {
     setOpen(false);
